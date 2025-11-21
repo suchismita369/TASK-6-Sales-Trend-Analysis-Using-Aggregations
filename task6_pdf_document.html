@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 6 - Sales Trend Analysis</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #ff5722;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .logo-section {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        h1 {
+            color: #ff5722;
+            font-size: 32px;
+            margin: 0;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .student-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .student-info h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .task-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .task-header h2 {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h3 {
+            color: #667eea;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        .info-box {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .keyword { color: #66d9ef; }
+        .function { color: #a6e22e; }
+        .string { color: #e6db74; }
+        .comment { color: #75715e; font-style: italic; }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .results-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .results-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        .results-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+        .outcome-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 30px;
+        }
+        .outcome-box h3 {
+            color: #2e7d32;
+            margin-top: 0;
+            border: none;
+            padding: 0;
+        }
+        .print-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .print-btn:hover {
+            background: #5568d3;
+        }
+        ul {
+            line-height: 2;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DATA ANALYST INTERNSHIP</h1>
+    </div>
+
+    <div class="student-info">
+        <h3>👤 Submitted By: Suchismita Maity</h3>
+        <p><strong>Date:</strong> November 21, 2025</p>
+    </div>
+
+    <div class="task-header">
+        <h2>📊 TASK 6: Sales Trend Analysis Using Aggregations</h2>
+        <p style="margin: 5px 0;"><strong>Objective:</strong> Analyze monthly revenue and order volume</p>
+        <p style="margin: 5px 0;"><strong>Tools:</strong> PostgreSQL / MySQL / SQLite</p>
+        <p style="margin: 5px 0;"><strong>Deliverables:</strong> SQL script + results table</p>
+    </div>
+
+    <div class="section">
+        <h3>📝 Solution Overview</h3>
+        <div class="info-box">
+            <p>This solution analyzes online sales data to identify monthly trends in revenue and order volume. The queries use SQL aggregation functions (SUM, COUNT, AVG) combined with date extraction to group sales by time periods.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>💻 SQL Script - Main Query</h3>
+        <div class="code-block">
+<span class="comment">-- Monthly Revenue and Order Volume Analysis</span>
+
+<span class="keyword">SELECT</span> 
+    <span class="function">EXTRACT</span>(<span class="string">YEAR</span> <span class="keyword">FROM</span> order_date) <span class="keyword">AS</span> year,
+    <span class="function">EXTRACT</span>(<span class="string">MONTH</span> <span class="keyword">FROM</span> order_date) <span class="keyword">AS</span> month,
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> order_id) <span class="keyword">AS</span> total_orders,
+    <span class="function">SUM</span>(amount) <span class="keyword">AS</span> total_revenue,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(amount), 2) <span class="keyword">AS</span> avg_order_value
+<span class="keyword">FROM</span> 
+    online_sales
+<span class="keyword">GROUP BY</span> 
+    <span class="function">EXTRACT</span>(<span class="string">YEAR</span> <span class="keyword">FROM</span> order_date),
+    <span class="function">EXTRACT</span>(<span class="string">MONTH</span> <span class="keyword">FROM</span> order_date)
+<span class="keyword">ORDER BY</span> 
+    year, month;
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>🔄 Alternative Query (Formatted Date)</h3>
+        <div class="code-block">
+<span class="comment">-- Query with better date formatting</span>
+
+<span class="keyword">SELECT</span> 
+    <span class="function">TO_CHAR</span>(order_date, <span class="string">'YYYY-MM'</span>) <span class="keyword">AS</span> month_year,
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> order_id) <span class="keyword">AS</span> total_orders,
+    <span class="function">SUM</span>(amount) <span class="keyword">AS</span> total_revenue,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(amount), 2) <span class="keyword">AS</span> avg_order_value,
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> product_id) <span class="keyword">AS</span> unique_products
+<span class="keyword">FROM</span> 
+    online_sales
+<span class="keyword">GROUP BY</span> 
+    <span class="function">TO_CHAR</span>(order_date, <span class="string">'YYYY-MM'</span>)
+<span class="keyword">ORDER BY</span> 
+    month_year;
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>⏱️ Time-Limited Query</h3>
+        <div class="code-block">
+<span class="comment">-- Analysis for last 12 months</span>
+
+<span class="keyword">SELECT</span> 
+    <span class="function">EXTRACT</span>(<span class="string">YEAR</span> <span class="keyword">FROM</span> order_date) <span class="keyword">AS</span> year,
+    <span class="function">EXTRACT</span>(<span class="string">MONTH</span> <span class="keyword">FROM</span> order_date) <span class="keyword">AS</span> month,
+    <span class="function">COUNT</span>(<span class="keyword">DISTINCT</span> order_id) <span class="keyword">AS</span> total_orders,
+    <span class="function">SUM</span>(amount) <span class="keyword">AS</span> total_revenue,
+    <span class="function">ROUND</span>(<span class="function">AVG</span>(amount), 2) <span class="keyword">AS</span> avg_order_value
+<span class="keyword">FROM</span> 
+    online_sales
+<span class="keyword">WHERE</span> 
+    order_date >= <span class="function">CURRENT_DATE</span> - <span class="keyword">INTERVAL</span> <span class="string">'12 months'</span>
+<span class="keyword">GROUP BY</span> 
+    <span class="function">EXTRACT</span>(<span class="string">YEAR</span> <span class="keyword">FROM</span> order_date),
+    <span class="function">EXTRACT</span>(<span class="string">MONTH</span> <span class="keyword">FROM</span> order_date)
+<span class="keyword">ORDER BY</span> 
+    year, month;
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>📊 Expected Results Table</h3>
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Month</th>
+                    <th>Total Orders</th>
+                    <th>Total Revenue</th>
+                    <th>Avg Order Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024</td>
+                    <td>1</td>
+                    <td>1,245</td>
+                    <td>$84,560.00</td>
+                    <td>$67.90</td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>2</td>
+                    <td>1,398</td>
+                    <td>$95,230.50</td>
+                    <td>$68.12</td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>3</td>
+                    <td>1,567</td>
+                    <td>$108,945.75</td>
+                    <td>$69.52</td>
+                </tr>
+                <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-size: 14px; color: #666; margin-top: 10px;"><em>Note: This is a sample output. Actual results will vary based on your database data.</em></p>
+    </div>
+
+    <div class="section">
+        <h3>🔑 Key Components Explained</h3>
+        <ul>
+            <li><strong>EXTRACT(MONTH FROM order_date):</strong> Extracts the month number from the date</li>
+            <li><strong>GROUP BY year/month:</strong> Groups all orders by their month and year</li>
+            <li><strong>COUNT(DISTINCT order_id):</strong> Counts unique orders (volume)</li>
+            <li><strong>SUM(amount):</strong> Calculates total revenue for each month</li>
+            <li><strong>ORDER BY:</strong> Sorts results chronologically</li>
+            <li><strong>WHERE clause:</strong> Limits analysis to specific time periods</li>
+        </ul>
+    </div>
+
+    <div class="outcome-box">
+        <h3>✅ Learning Outcome</h3>
+        <p><strong>Learn how to group data and analyze time trends.</strong></p>
+        <p>This task demonstrates essential SQL aggregation techniques for business analytics, including grouping temporal data, calculating key performance metrics (KPIs), and identifying trends over time. These skills are fundamental for sales analysis, financial reporting, and business intelligence.</p>
+    </div>
+
+    <button class="print-btn no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd; color: #666;">
+        <p><strong>Elevate Labs - Data Analyst Internship Program</strong></p>
+        <p>Ministry of MSME, Govt. of India</p>
+    </div>
+</body>
+</html>
